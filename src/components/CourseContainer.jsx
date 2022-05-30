@@ -1,17 +1,11 @@
 import { useSelector } from 'react-redux';
 
-import { getCourses } from '../features/courses/coursesSlice';
 import { getAuthors } from '../features/authors/authorsSlice';
+import { getCourseAuthors } from '../helpers/getCourseAuthors';
 
 import CourseCard from './Courses/components/CourseCard/CourseCard';
 
-export const getCourseAuthors = (arrayOfIds, authors) =>
-	authors?.map(
-		(author) => arrayOfIds?.includes(author.id) && author.name + ','
-	);
-
-const CourseContainer = () => {
-	const courses = useSelector(getCourses);
+const CourseContainer = ({ courses }) => {
 	const authors = useSelector(getAuthors);
 
 	return (

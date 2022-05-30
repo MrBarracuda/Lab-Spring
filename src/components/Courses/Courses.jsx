@@ -1,35 +1,48 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import SearchBar from './components/SearchBar/SearchBar';
-import { Button } from '../../common/Button/Button';
-
-import CourseContainer from '../CourseContainer';
+import { getCourses } from '../../features/courses/coursesSlice';
 import { COURSES } from '../../constants';
+
+import { Button } from '../../common/Button/Button';
+import SearchBar from './components/SearchBar/SearchBar';
+import CourseContainer from '../CourseContainer';
 
 const Courses = () => {
 	const navigate = useNavigate();
+
+	const courses = useSelector(getCourses);
 	const [searchInput, setSearchInput] = useState('');
+	const [filteredCourses, setFilteredCourses] = useState([]);
 
-	const navigateToCreateCourse = (event) => {
-		event.preventDefault();
-		navigate(`${COURSES}/add`);
-	};
-
-	const onChangeSearchInput = (event) => {
-		setSearchInput(event.target.value);
+	const searchItems = (searchValue) => {
+		setSearchInput(searchValue);
+		if (searchInput !== '') {
+			const filteredCourses = courses.filter((item) =>
+				Object.values(item)
+					.join('')
+					.toLowerCase()
+					.includes(searchInput.toLowerCase())
+			);
+			setFilteredCourses(filteredCourses);
+		} else {
+			setFilteredCourses(courses);
+		}
 	};
 
 	return (
 		<>
 			<nav>
-				<SearchBar
-					onChangeSearchInput={onChangeSearchInput}
-					searchInput={searchInput}
+				<SearchBar searchItems={searchItems} searchInput={searchInput} />
+				<Button
+					value='Add new course'
+					handleClick={() => navigate(`${COURSES}/add`)}
 				/>
-				<Button value='Add new course' handleClick={navigateToCreateCourse} />
 			</nav>
-			<CourseContainer />
+			<CourseContainer
+				courses={searchInput.length > 1 ? filteredCourses : courses}
+			/>
 		</>
 	);
 };

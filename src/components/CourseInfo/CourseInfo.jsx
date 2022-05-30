@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import api from '../../services/api/baseURL';
 import { COURSES, BUTTON } from '../../constants';
+import { getCourseAuthors } from '../../helpers/getCourseAuthors';
+import { getAuthors } from '../../features/authors/authorsSlice';
+import api from '../../services/api/baseURL';
 import styles from './CourseInfo.module.css';
-import { getCourseAuthors } from '../CourseContainer';
 
 import { Button } from '../../common/Button/Button';
-import { useSelector } from 'react-redux';
-import { getAuthors } from '../../features/authors/authorsSlice';
 
 const CourseInfo = () => {
 	const navigate = useNavigate();
