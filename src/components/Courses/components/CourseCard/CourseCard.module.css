@@ -1,0 +1,38 @@
+.courseCardItem {
+    display: flex;
+    padding: 25px;
+    border: 1px solid #009616;
+    margin-bottom: 25px;
+    /*justify-content: space-between;*/
+    gap: 15px;
+}
+.leftSide {
+   width:  70%;
+}
+.title {
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.rightSide {
+    width: 30%;
+    /*margin-left: 10px;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+}
+.rightSide > div {
+    margin-bottom: 5px;
+}
+.description {
+    display: flex;
+}
+.subTitle {
+    font-weight: 700;
+}
+.creationDate {
+    margin-bottom: 20px;
+}
+.btnSmall {
+    margin-top: 5px;
+    margin-left: 7px;
+}

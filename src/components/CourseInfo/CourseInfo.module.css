@@ -1,0 +1,25 @@
+.heading {
+    font-size: 32px;
+    font-weight: 600;
+    margin-top: 0;
+}
+.courseCard {
+    display: flex;
+}
+.btnBack {
+    border: none;
+    margin: 0;
+    padding: 5px;
+}
+.btnBack:hover {
+    background: #fff;
+    transform: translateX(-15px);
+    transition: transform .2s ease-in;
+}
+.description {
+    flex-basis: 65%;
+    padding-right: 20px;
+}
+.detailedInfo {
+    flex-basis: 35%;
+}
