@@ -32,29 +32,22 @@ const CreateCourse = () => {
 		authors: [],
 	});
 
-	const authorId = (addedAuthorsToCourse) =>
-		addedAuthorsToCourse.map((item) => item.id);
-
 	const addAuthorToCourse = (event, id, name) => {
-		event.preventDefault();
 		if (addedAuthors.some((item) => item.id === id)) {
 			console.log('You have already added this author to course');
 		} else {
 			setAddedAuthors((prev) => [...prev, { id, name }]);
+			setCourseInfo((info) => ({
+				...info,
+				authors: [...info.authors, id],
+			}));
 		}
 	};
 
-	useEffect(() => {
-		setCourseInfo((info) => ({
-			...info,
-			authors: [...authorId(addedAuthors)],
-		}));
-	}, [addedAuthors]);
+	// useEffect(() => {}, [addedAuthors]);
 
-	const deleteAuthorFromCourse = (event, id) => {
-		event.preventDefault();
+	const deleteAuthorFromCourse = (event, id) =>
 		setAddedAuthors((prev) => prev.filter((item) => item.id !== id));
-	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
