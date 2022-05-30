@@ -1,0 +1,15 @@
+.header {
+    background: #fff;
+    display: flex;
+    padding: 20px;
+    border: 1px solid salmon;
+    align-items: center;
+    margin-bottom: 30px;
+    justify-content: space-between;
+}
+.userName {
+    margin-left: auto;
+}
+.btnLogout {
+    margin-left: 15px;
+}

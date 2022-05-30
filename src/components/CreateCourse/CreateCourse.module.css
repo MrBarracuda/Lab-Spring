@@ -1,0 +1,50 @@
+.firstForm {
+    margin-bottom: 40px;
+}
+.upper {
+     display: flex;
+     align-items: flex-end;
+     justify-content: space-between;
+     margin-bottom: 30px;
+ }
+.secondForm {
+    margin-top: 30px;
+    border: 1px solid rgb(71, 71, 71);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.left {
+    width: 50%;
+}.durationTimer {
+     margin-block: 35px;
+     font-size: 24px;
+     font-weight: 300;
+ }
+.durationTimer span {
+    font-weight: 600;
+}
+.right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.authors {
+    display: block;
+    width: 70%;
+}
+.authorsList {
+    display: flex;
+    justify-content: space-between;
+}
+.courseAuthors {
+    margin-bottom: 50px;
+}
+.btnCreateAuthor {
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 70px;
+}
