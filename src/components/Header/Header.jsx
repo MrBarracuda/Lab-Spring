@@ -1,7 +1,8 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { LOGIN, SUBMIT } from '../../constants';
-import { logout } from '../../features/user/userSlice';
+import { getUser, logout, logoutUser } from '../../features/user/userSlice';
+
 import styles from './Header.module.css';
 
 import { Button } from '../../common/Button/Button';
@@ -12,12 +13,14 @@ const Header = ({ isAuth }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userName = localStorage.getItem('userName');
+	const currentUser = useSelector(getUser);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		localStorage.removeItem('token');
 		localStorage.removeItem('userName');
-		dispatch(logout());
+		// dispatch(logout());
+		dispatch(logoutUser(currentUser));
 		navigate(LOGIN);
 	};
 

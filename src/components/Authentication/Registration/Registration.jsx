@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { register, registerUser } from '../../../features/user/userSlice';
+import { registerUser } from '../../../features/user/userSlice';
 import { handleInputChange } from '../../../hooks/handleInputChange';
 import { LOGIN, SUBMIT } from '../../../constants';
 import styles from '../Authentication.module.css';
@@ -12,12 +12,13 @@ import { Button } from '../../../common/Button/Button';
 const Registration = ({ userData, setUserData }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
-		dispatch(registerUser(userData))
-			.then(({ payload }) => payload && navigate(LOGIN))
-			.then(() => dispatch(register(userData)));
+		dispatch(registerUser(userData)).then(
+			({ payload }) => payload && navigate(LOGIN)
+		);
 	};
 	return (
 		<div className={styles.auth}>

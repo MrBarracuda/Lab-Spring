@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../services/api/baseURL';
+
+import { setError, setLoading } from '../helpers/handleRequests';
 import { COURSES_ALL } from '../../constants';
+import api from '../../services/api/baseURL';
 
 const initialState = {
 	courses: [],
-	isLoading: true,
+	isLoading: false,
 	error: null,
 };
 
@@ -20,28 +22,21 @@ export const courseSlice = createSlice({
 	name: 'courses',
 	initialState,
 	reducers: {
-		addNewCourse: (state, { payload }) => ({
-			...state,
-			courses: [...state.courses, payload],
-		}),
-		deleteCourse: (state, { payload }) => ({
-			...state,
-			courses: state.courses.filter(({ id }) => id !== payload),
-		}),
+		addNewCourse: (state, { payload }) => {
+			state.courses.push(payload);
+		},
+		deleteCourse: (state, { payload }) => {
+			state.courses = state.courses.filter(({ id }) => id !== payload);
+		},
 	},
-	extraReducers(builder) {
-		builder
-			.addCase(fetchCourses.pending, (state, action) => {
-				state.isLoading = true;
-			})
-			.addCase(fetchCourses.fulfilled, (state, { payload }) => {
-				state.isLoading = false;
-				state.courses = payload;
-			})
-			.addCase(fetchCourses.rejected, (state, action) => {
-				state.isLoading = false;
-				state.error = action.error.message;
-			});
+	extraReducers: {
+		[fetchCourses.pending]: setLoading,
+		[fetchCourses.fulfilled]: (state, { payload }) => {
+			state.isLoading = false;
+			state.error = null;
+			state.courses = payload;
+		},
+		[fetchCourses.rejected]: setError,
 	},
 });
 

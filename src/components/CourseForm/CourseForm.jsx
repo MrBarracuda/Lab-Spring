@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,13 +9,13 @@ import { pipeDuration } from '../../helpers/pipeDuration';
 import { getAuthors } from '../../features/authors/authorsSlice';
 import { useGetFormattedDate } from '../../helpers/useGetFormattedDate';
 import { handleInputChange } from '../../hooks/handleInputChange';
-import styles from './CreateCourse.module.css';
+import styles from './CourseForm.module.css';
 import { SUBMIT, BUTTON } from '../../constants';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 
-const CreateCourse = () => {
+const CourseForm = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -175,4 +175,4 @@ const CreateCourse = () => {
 	);
 };
 
-export default CreateCourse;
+export default CourseForm;

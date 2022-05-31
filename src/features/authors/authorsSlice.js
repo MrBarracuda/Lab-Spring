@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import api from '../../services/api/baseURL';
+
+import { setError, setLoading } from '../helpers/handleRequests';
 import { AUTHORS_ALL } from '../../constants';
+import api from '../../services/api/baseURL';
 
 const initialState = {
 	authors: [],
-	isLoading: true,
+	isLoading: false,
 	error: null,
 };
 
@@ -20,24 +22,18 @@ export const authorSlice = createSlice({
 	name: 'authors',
 	initialState,
 	reducers: {
-		addNewAuthor: (state, { payload }) => ({
-			...state,
-			authors: [...state.authors, payload],
-		}),
+		addNewAuthor: (state, { payload }) => {
+			state.authors.push(payload);
+		},
 	},
-	extraReducers(builder) {
-		builder
-			.addCase(fetchAuthors.pending, (state, action) => {
-				state.isLoading = true;
-			})
-			.addCase(fetchAuthors.fulfilled, (state, { payload }) => {
-				state.isLoading = false;
-				state.authors = payload;
-			})
-			.addCase(fetchAuthors.rejected, (state, action) => {
-				state.isLoading = false;
-				state.error = action.error.message;
-			});
+	extraReducers: {
+		[fetchAuthors.pending]: setLoading,
+		[fetchAuthors.fulfilled]: (state, { payload }) => {
+			state.isLoading = false;
+			state.error = null;
+			state.authors = payload;
+		},
+		[fetchAuthors.rejected]: setError,
 	},
 });
 
