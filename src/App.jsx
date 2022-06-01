@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-import { fetchCourses } from './features/courses/coursesSlice';
+import { fetchCourses, getCourses } from './features/courses/coursesSlice';
 import { fetchAuthors } from './features/authors/authorsSlice';
-import api from './services/api/baseURL';
-import { ADMIN } from './constants';
+import { COURSES, LOGIN } from './constants';
 
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
@@ -15,11 +14,12 @@ import Registration from './components/Authentication/Registration/Registration'
 import Login from './components/Authentication/Login/Login';
 import { Wrapper } from './components/Wrapper';
 import PrivateRouter from './components/PrivateRouter/PrivateRouter';
-import { getUser } from './features/user/userSlice';
+import { fetchCurrentUser } from './features/user/userSlice';
 
 function App() {
 	const dispatch = useDispatch();
-	const token = localStorage.getItem('token');
+	const token = Boolean(localStorage.getItem('token'));
+
 	const [userData, setUserData] = useState({
 		name: '',
 		email: '',
@@ -34,19 +34,13 @@ function App() {
 		dispatch(fetchAuthors());
 	}, [dispatch]);
 
-	// useEffect(() => {
-	// 	const getCurrentUser = async () => {
-	// 		if (token) {
-	// 			const responce = await api.get('/users/me');
-	// 			console.log(responce);
-	// 		}
-	// 	};
-	// 	getCurrentUser();
-	// }, []);
+	useEffect(() => {
+		dispatch(fetchCurrentUser());
+	}, [dispatch]);
 
 	return (
 		<div className='app'>
-			<Header isAuth={Boolean(token)} />
+			<Header />
 			<Wrapper>
 				<Routes>
 					<Route
@@ -61,7 +55,7 @@ function App() {
 					/>
 					<Route
 						path='/'
-						element={<Navigate to={token ? '/courses' : '/login'} replace />}
+						element={<Navigate to={token ? COURSES : LOGIN} replace />}
 					/>
 					{/*<Route path='/courses' element={<PrivateRouter />} />*/}
 					<Route path='/courses' element={<Courses />} />

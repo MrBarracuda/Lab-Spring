@@ -39,6 +39,13 @@ h2 {
 h3 {
     text-align: center;
 }
+h6 {
+    margin: 20px 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #9f0000;
+}
 .wrapper {
     padding: 20px;
     padding-bottom: 200px;
@@ -54,6 +61,7 @@ nav {
     padding: 8px 24px;
     background: #fff;
     border: 1px solid rgb(160, 124, 160);
+    cursor: pointer;
 }
 .btn:hover {
     background: rgb(254, 235, 255);

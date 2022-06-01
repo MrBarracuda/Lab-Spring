@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { setError, setLoading } from '../helpers/handleRequests';
-import { AUTHORS_ALL } from '../../constants';
+import { AUTHORS_ADD, AUTHORS_ALL } from '../../constants';
 import api from '../../services/api/baseURL';
 
 const initialState = {
@@ -13,8 +13,17 @@ const initialState = {
 export const fetchAuthors = createAsyncThunk(
 	'authors/fetchAuthors',
 	async () => {
-		const response = await api.get(AUTHORS_ALL);
-		return response.data?.result;
+		const { data } = await api(AUTHORS_ALL);
+		return data?.result;
+	}
+);
+
+export const sendAuthor = createAsyncThunk(
+	'authors/sendAuthor',
+	async (author, { dispatch }) => {
+		const response = await api.post(AUTHORS_ADD, author);
+		console.log(response);
+		return response;
 	}
 );
 
@@ -27,6 +36,7 @@ export const authorSlice = createSlice({
 		},
 	},
 	extraReducers: {
+		//get authors array
 		[fetchAuthors.pending]: setLoading,
 		[fetchAuthors.fulfilled]: (state, { payload }) => {
 			state.isLoading = false;
@@ -34,6 +44,15 @@ export const authorSlice = createSlice({
 			state.authors = payload;
 		},
 		[fetchAuthors.rejected]: setError,
+
+		//push new author to array
+		[sendAuthor.pending]: setLoading,
+		[sendAuthor.fulfilled]: (state, { payload }) => {
+			state.isLoading = false;
+			state.error = null;
+			state.authors.push(payload);
+		},
+		[sendAuthor.rejected]: setError,
 	},
 });
 

@@ -9,27 +9,23 @@ import { Button } from '../../common/Button/Button';
 import { Logo } from './components/Logo/Logo';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({ isAuth }) => {
+const Header = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const userName = localStorage.getItem('userName');
+
 	const currentUser = useSelector(getUser);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		localStorage.removeItem('token');
-		localStorage.removeItem('userName');
-		// dispatch(logout());
-		dispatch(logoutUser(currentUser));
-		navigate(LOGIN);
+		dispatch(logoutUser()).then(() => dispatch(logout()));
 	};
 
 	return (
 		<div className={styles.header}>
 			<Logo />
-			{isAuth && (
+			{currentUser?.isAuth && (
 				<form onSubmit={handleSubmit}>
-					<div className={styles.userName}>{userName}</div>
+					<div className={styles.userName}>{currentUser.name}</div>
 					<Button type={SUBMIT} value='Logout' classN={styles.btnLogout} />
 				</form>
 			)}

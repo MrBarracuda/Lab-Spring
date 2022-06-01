@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { addNewCourse } from '../../features/courses/coursesSlice';
-import { addNewAuthor } from '../../features/authors/authorsSlice';
+import { addNewAuthor, sendAuthor } from '../../features/authors/authorsSlice';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import { getAuthors } from '../../features/authors/authorsSlice';
 import { useGetFormattedDate } from '../../helpers/useGetFormattedDate';
@@ -53,6 +53,9 @@ const CourseForm = () => {
 		event.preventDefault();
 		navigate('/courses');
 	};
+	// useEffect(() => {
+	// 	sendAuthor(newAuthor);
+	// }, [newAuthor]);
 
 	return (
 		<form className={styles.firstForm} onSubmit={handleSubmit}>
@@ -105,9 +108,10 @@ const CourseForm = () => {
 						type={BUTTON}
 						value='Create author'
 						classN={styles.btnCreateAuthor}
-						handleClick={() =>
-							dispatch(addNewAuthor({ id: uuidv4(), name: newAuthor }))
-						}
+						handleClick={() => {
+							dispatch(addNewAuthor({ id: uuidv4(), name: newAuthor }));
+							// dispatch(sendAuthor(newAuthor));
+						}}
 					/>
 					<h3>Duration</h3>
 					<label>
