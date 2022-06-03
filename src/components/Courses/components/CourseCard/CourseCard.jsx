@@ -1,24 +1,33 @@
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './CourseCard.module.css';
 
-import { deleteCourse } from '../../../../features/courses/coursesSlice';
+import { deleteCourseAPI } from '../../../../features/courses/coursesSlice';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
 import { convertDate } from '../../../../helpers/convertDate';
 
 import { Button } from '../../../../common/Button/Button';
-import { BUTTON, COURSES } from '../../../../constants';
+import {
+	BUTTON,
+	COURSES,
+	COURSES_UPDATE,
+	HIDDEN,
+	VISIBLE,
+} from '../../../../constants';
+import { FontAwesomeIcon } from '../../../../common/Icons/FontAwesomeIcon';
 
 const CourseCard = ({
 	title,
 	description,
 	creationDate,
 	duration,
-	id,
+	id: courseId,
 	authorsList,
+	role,
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
 	return (
 		<div className={styles.courseCardItem}>
 			<div className={styles.leftSide}>
@@ -42,21 +51,25 @@ const CourseCard = ({
 				<Button
 					type={BUTTON}
 					value='Show course'
-					handleClick={() => navigate(`${COURSES}/${id}`)}
+					handleClick={() => navigate(`${COURSES}/${courseId}`)}
 				/>
+
+				<FontAwesomeIcon icon='fa-solid fa-circle-trash' />
 				<Button
 					type={BUTTON}
 					name='edit'
 					value='e'
 					classN={styles.btnSmall}
-					handleClick={(event) => console.log(event.target)}
+					style={{ visibility: role ? HIDDEN : VISIBLE }}
+					handleClick={() => navigate(COURSES_UPDATE + '/' + courseId)}
 				/>
 				<Button
 					type={BUTTON}
 					name='delete'
 					value='d'
+					style={{ visibility: role ? HIDDEN : VISIBLE }}
 					classN={styles.btnSmall}
-					handleClick={() => dispatch(deleteCourse(id))}
+					handleClick={() => dispatch(deleteCourseAPI(courseId))}
 				/>
 			</div>
 		</div>

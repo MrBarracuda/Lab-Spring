@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { setError, setLoading } from '../helpers/handleRequests';
-import { COURSES_ALL } from '../../constants';
+import { AUTH_TOKEN, COURSES, COURSES_ALL } from '../../constants';
 import api from '../../services/api/baseURL';
 
 const initialState = {
@@ -13,8 +13,20 @@ const initialState = {
 export const fetchCourses = createAsyncThunk(
 	'courses/fetchCourses',
 	async () => {
-		const response = await api.get(COURSES_ALL);
+		const response = await api(COURSES_ALL);
 		return response.data?.result;
+	}
+);
+
+export const deleteCourseAPI = createAsyncThunk(
+	'courses/deleteCourseAPI',
+	async (id, { dispatch }) => {
+		const response = await api
+			.delete(`${COURSES}/${id}`, { headers: AUTH_TOKEN })
+			.then((res) => {
+				dispatch(deleteCourse(id));
+			});
+		console.log(response);
 	}
 );
 
@@ -30,6 +42,7 @@ export const courseSlice = createSlice({
 		},
 	},
 	extraReducers: {
+		// fetch courses
 		[fetchCourses.pending]: setLoading,
 		[fetchCourses.fulfilled]: (state, { payload }) => {
 			state.isLoading = false;
@@ -37,6 +50,14 @@ export const courseSlice = createSlice({
 			state.courses = payload;
 		},
 		[fetchCourses.rejected]: setError,
+
+		// delete course
+		[deleteCourseAPI.pending]: setLoading,
+		[deleteCourseAPI.fulfilled]: (state, { payload }) => {
+			state.isLoading = false;
+			state.error = null;
+		},
+		[deleteCourseAPI.rejected]: setError,
 	},
 });
 

@@ -3,14 +3,16 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { getCourses } from '../../features/courses/coursesSlice';
-import { COURSES } from '../../constants';
+import { USER, COURSES_ADD, HIDDEN, VISIBLE } from '../../constants';
 
 import { Button } from '../../common/Button/Button';
 import SearchBar from './components/SearchBar/SearchBar';
 import CourseContainer from '../CourseContainer';
+import { getUser } from '../../features/user/userSlice';
 
 const Courses = () => {
 	const navigate = useNavigate();
+	const { role } = useSelector(getUser);
 
 	const courses = useSelector(getCourses);
 	const [searchInput, setSearchInput] = useState('');
@@ -37,7 +39,8 @@ const Courses = () => {
 				<SearchBar searchItems={searchItems} searchInput={searchInput} />
 				<Button
 					value='Add new course'
-					handleClick={() => navigate(`${COURSES}/add`)}
+					handleClick={() => navigate(COURSES_ADD)}
+					style={{ visibility: role === USER ? HIDDEN : VISIBLE }}
 				/>
 			</nav>
 			<CourseContainer

@@ -5,10 +5,10 @@ import { REGISTER, LOGIN, LOGOUT, AUTH_TOKEN, USERS_ME } from '../../constants';
 import api from '../../services/api/baseURL';
 
 const userResolved = (state, { payload }) => {
-	state.email = payload.user.email;
-	state.name = payload.user.name;
-	state.role = payload.user.role || 'user';
-	state.token = payload.token;
+	state.email = payload?.user.email;
+	state.name = payload?.user.name || 'admin';
+	state.role = payload?.user.role || 'user';
+	state.token = payload?.token;
 	state.isAuth = true;
 	state.isLoading = false;
 	state.error = null;
@@ -56,12 +56,16 @@ export const logoutUser = createAsyncThunk(
 
 export const fetchCurrentUser = createAsyncThunk(
 	'user/fetchCurrentUser',
-	async () => {
-		const response = await api(USERS_ME, { headers: AUTH_TOKEN });
-		return {
-			user: response.data.result,
-			token: response.config.headers.Authorization,
-		};
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await api(USERS_ME, { headers: AUTH_TOKEN });
+			return {
+				user: response.data.result,
+				token: response.config.headers.Authorization,
+			};
+		} catch (error) {
+			rejectWithValue(error.message);
+		}
 	}
 );
 
@@ -97,7 +101,10 @@ export const userSlice = createSlice({
 
 		// logout
 		[logoutUser.pending]: setLoading,
-		// [logoutUser.fulfilled]: () => initialState,
+		[logoutUser.fulfilled]: (state) => {
+			state.isLoading = false;
+			state.error = null;
+		},
 		[logoutUser.rejected]: setError,
 
 		// fetch current user
@@ -107,7 +114,7 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { register, logout } = userSlice.actions;
+export const { logout } = userSlice.actions;
 
 export const getUser = ({ user }) => user;
 

@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-import { fetchCourses, getCourses } from './features/courses/coursesSlice';
+import { fetchCourses } from './features/courses/coursesSlice';
 import { fetchAuthors } from './features/authors/authorsSlice';
-import { COURSES, LOGIN } from './constants';
+import {
+	COURSES,
+	COURSES_ADD,
+	COURSES_UPDATE,
+	LOGIN,
+	REGISTRATION,
+} from './constants';
 
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
@@ -13,8 +19,10 @@ import CourseForm from './components/CourseForm/CourseForm';
 import Registration from './components/Authentication/Registration/Registration';
 import Login from './components/Authentication/Login/Login';
 import { Wrapper } from './components/Wrapper';
-import PrivateRouter from './components/PrivateRouter/PrivateRouter';
+import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
 import { fetchCurrentUser } from './features/user/userSlice';
+import { v4 as uuidv4 } from 'uuid';
+import { useGetFormattedDate } from './helpers/useGetFormattedDate';
 
 function App() {
 	const dispatch = useDispatch();
@@ -26,6 +34,15 @@ function App() {
 		password: '',
 	});
 
+	const [courseInfo, setCourseInfo] = useState({
+		title: '',
+		id: uuidv4(),
+		creationDate: useGetFormattedDate(new Date()),
+		description: '',
+		duration: 0,
+		authors: [],
+	});
+
 	useEffect(() => {
 		dispatch(fetchCourses());
 	}, [dispatch]);
@@ -35,8 +52,8 @@ function App() {
 	}, [dispatch]);
 
 	useEffect(() => {
-		dispatch(fetchCurrentUser());
-	}, [dispatch]);
+		token && dispatch(fetchCurrentUser());
+	}, [dispatch, token]);
 
 	return (
 		<div className='app'>
@@ -44,11 +61,11 @@ function App() {
 			<Wrapper>
 				<Routes>
 					<Route
-						path='/login'
+						path={LOGIN}
 						element={<Login userData={userData} setUserData={setUserData} />}
 					/>
 					<Route
-						path='/registration'
+						path={REGISTRATION}
 						element={
 							<Registration userData={userData} setUserData={setUserData} />
 						}
@@ -58,9 +75,30 @@ function App() {
 						element={<Navigate to={token ? COURSES : LOGIN} replace />}
 					/>
 					{/*<Route path='/courses' element={<PrivateRouter />} />*/}
-					<Route path='/courses' element={<Courses />} />
-					<Route path='/courses/:id' element={<CourseInfo />} />
-					<Route path='/courses/add' element={<CourseForm />} />
+					<Route
+						path={COURSES}
+						element={
+							<Courses courseInfo={courseInfo} setCourseInfo={setCourseInfo} />
+						}
+					/>
+					<Route path={COURSES + '/:id'} element={<CourseInfo />} />
+					<Route
+						path={COURSES_UPDATE + '/:id'}
+						element={
+							<CourseForm
+								setCourseInfo={setCourseInfo}
+								courseInfo={courseInfo}
+							/>
+						}
+					/>
+					<Route
+						path={COURSES_ADD}
+						element={
+							<PrivateRouter>
+								<CourseForm />
+							</PrivateRouter>
+						}
+					></Route>
 				</Routes>
 			</Wrapper>
 		</div>

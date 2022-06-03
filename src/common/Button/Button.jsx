@@ -6,6 +6,7 @@ export const Button = ({
 	name,
 	type,
 	form,
+	style,
 }) => {
 	return (
 		<button
@@ -15,6 +16,7 @@ export const Button = ({
 			onClick={handleClick}
 			disabled={disabled}
 			name={name}
+			style={style}
 		>
 			{value}
 		</button>

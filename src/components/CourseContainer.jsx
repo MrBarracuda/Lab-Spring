@@ -4,9 +4,12 @@ import { getAuthors } from '../features/authors/authorsSlice';
 import { getCourseAuthors } from '../helpers/getCourseAuthors';
 
 import CourseCard from './Courses/components/CourseCard/CourseCard';
+import { getUser } from '../features/user/userSlice';
+import { USER } from '../constants';
 
 const CourseContainer = ({ courses }) => {
 	const authors = useSelector(getAuthors);
+	const { role } = useSelector(getUser);
 
 	return (
 		<>
@@ -16,6 +19,7 @@ const CourseContainer = ({ courses }) => {
 					return (
 						<CourseCard
 							key={course.id}
+							role={role === USER}
 							authorsList={courseAuthors}
 							{...course}
 						/>

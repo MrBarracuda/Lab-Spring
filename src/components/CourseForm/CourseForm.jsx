@@ -1,36 +1,33 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { addNewCourse } from '../../features/courses/coursesSlice';
 import { addNewAuthor, sendAuthor } from '../../features/authors/authorsSlice';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import { getAuthors } from '../../features/authors/authorsSlice';
-import { useGetFormattedDate } from '../../helpers/useGetFormattedDate';
 import { handleInputChange } from '../../hooks/handleInputChange';
 import styles from './CourseForm.module.css';
-import { SUBMIT, BUTTON } from '../../constants';
+import { SUBMIT, BUTTON, COURSES } from '../../constants';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
+import api from '../../services/api/baseURL';
 
-const CourseForm = () => {
+const CourseForm = ({ courseInfo, setCourseInfo }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { id } = useParams();
+
+	useEffect(() => {
+		api(COURSES + '/' + id).then(({ data }) => setCourseInfo(data.result));
+	}, [id, setCourseInfo, courseInfo]);
 
 	const authors = useSelector(getAuthors);
 
 	const [newAuthor, setNewAuthor] = useState('');
 	const [addedAuthors, setAddedAuthors] = useState([]);
-	const [courseInfo, setCourseInfo] = useState({
-		title: '',
-		id: uuidv4(),
-		creationDate: useGetFormattedDate(new Date()),
-		description: '',
-		duration: 0,
-		authors: [],
-	});
 
 	const addAuthorToCourse = (event, id, name) => {
 		if (addedAuthors.some((item) => item.id === id)) {
@@ -44,18 +41,13 @@ const CourseForm = () => {
 		}
 	};
 
-	// useEffect(() => {}, [addedAuthors]);
-
 	const deleteAuthorFromCourse = (event, id) =>
 		setAddedAuthors((prev) => prev.filter((item) => item.id !== id));
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		navigate('/courses');
+		navigate(COURSES);
 	};
-	// useEffect(() => {
-	// 	sendAuthor(newAuthor);
-	// }, [newAuthor]);
 
 	return (
 		<form className={styles.firstForm} onSubmit={handleSubmit}>
@@ -65,7 +57,7 @@ const CourseForm = () => {
 					<Input
 						required
 						type='text'
-						value={courseInfo.title}
+						value={courseInfo?.title}
 						onChange={(event) => handleInputChange(event, setCourseInfo)}
 						name='title'
 						placeHolder='Enter title...'
@@ -84,7 +76,7 @@ const CourseForm = () => {
 				<textarea
 					required
 					rows={6}
-					value={courseInfo.description}
+					value={courseInfo?.description}
 					onChange={(event) => handleInputChange(event, setCourseInfo)}
 					name='description'
 					placeholder='Enter description...'
@@ -119,7 +111,7 @@ const CourseForm = () => {
 						<Input
 							required
 							type='number'
-							value={courseInfo.duration}
+							value={courseInfo?.duration}
 							onChange={(event) => handleInputChange(event, setCourseInfo)}
 							name='duration'
 							placeHolder='0'
@@ -128,8 +120,8 @@ const CourseForm = () => {
 					<div className={styles.durationTimer}>
 						Duration:{' '}
 						<span>
-							{Boolean(courseInfo.duration)
-								? pipeDuration(courseInfo.duration)
+							{Boolean(courseInfo?.duration)
+								? pipeDuration(courseInfo?.duration)
 								: '00:00 hours'}
 						</span>
 					</div>

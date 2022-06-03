@@ -17,7 +17,9 @@ const Header = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		dispatch(logoutUser()).then(() => dispatch(logout()));
+		dispatch(logoutUser())
+			.then(() => dispatch(logout()))
+			.then(() => navigate(LOGIN));
 	};
 
 	return (

@@ -18,6 +18,11 @@ const Login = ({ userData, setUserData }) => {
 		dispatch(loginUser(userData)).then(
 			({ payload }) => payload.token && navigate(COURSES)
 		);
+		setUserData({
+			name: '',
+			email: '',
+			password: '',
+		});
 	};
 
 	return (

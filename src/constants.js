@@ -1,6 +1,8 @@
 // course endpoints
 export const COURSES = '/courses';
 export const COURSES_ALL = '/courses/all';
+export const COURSES_ADD = '/courses/add';
+export const COURSES_UPDATE = '/courses/update';
 
 // author endpoints
 export const AUTHORS_ALL = '/authors/all';
@@ -21,6 +23,10 @@ export const USER = 'user';
 export const BUTTON = 'button';
 export const SUBMIT = 'submit';
 
-// misc
+// storage
 export const TOKEN = localStorage.getItem('token');
 export const AUTH_TOKEN = { Authorization: TOKEN };
+
+// misc
+export const VISIBLE = 'visible';
+export const HIDDEN = 'hidden';
