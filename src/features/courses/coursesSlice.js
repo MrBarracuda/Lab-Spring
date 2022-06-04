@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { setError, setLoading } from '../helpers/handleRequests';
-import { AUTH_TOKEN, COURSES, COURSES_ALL } from '../../constants';
+import { COURSES, COURSES_ALL, TOKEN } from '../../constants';
 import api from '../../services/api/baseURL';
 
 const initialState = {
@@ -22,7 +22,9 @@ export const deleteCourseAPI = createAsyncThunk(
 	'courses/deleteCourseAPI',
 	async (id, { dispatch }) => {
 		const response = await api
-			.delete(`${COURSES}/${id}`, { headers: AUTH_TOKEN })
+			.delete(`${COURSES}/${id}`, {
+				headers: { Authorization: localStorage.getItem(TOKEN) },
+			})
 			.then((res) => {
 				dispatch(deleteCourse(id));
 			});

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { registerUser } from '../../../features/user/userSlice';
+import { register } from '../../../features/user/userAction';
 import { handleInputChange } from '../../../hooks/handleInputChange';
 import { LOGIN, SUBMIT } from '../../../constants';
 import styles from '../Authentication.module.css';
@@ -16,7 +16,7 @@ const Registration = ({ userData, setUserData }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
-		dispatch(registerUser(userData)).then(
+		dispatch(register(userData)).then(
 			({ payload }) => payload && navigate(LOGIN)
 		);
 	};

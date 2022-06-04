@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUser, loginUser } from '../../../features/user/userSlice';
+import { getUser } from '../../../features/user/userSlice';
+import { login } from '../../../features/user/userAction';
 import { handleInputChange } from '../../../hooks/handleInputChange';
 import { COURSES, REGISTRATION, SUBMIT } from '../../../constants';
 import styles from '../Authentication.module.css';
@@ -15,7 +16,7 @@ const Login = ({ userData, setUserData }) => {
 	const user = useSelector(getUser);
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		dispatch(loginUser(userData)).then(
+		dispatch(login(userData)).then(
 			({ payload }) => payload.token && navigate(COURSES)
 		);
 		setUserData({

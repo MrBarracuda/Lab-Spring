@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LOGIN, SUBMIT } from '../../constants';
-import { getUser, logout, logoutUser } from '../../features/user/userSlice';
+import { getUser } from '../../features/user/userSlice';
+import { logout } from '../../features/user/userAction';
 
 import styles from './Header.module.css';
 
@@ -17,9 +18,7 @@ const Header = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		dispatch(logoutUser())
-			.then(() => dispatch(logout()))
-			.then(() => navigate(LOGIN));
+		dispatch(logout()).then(() => navigate(LOGIN));
 	};
 
 	return (

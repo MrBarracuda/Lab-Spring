@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
 import { fetchCourses } from './features/courses/coursesSlice';
@@ -20,7 +20,7 @@ import Registration from './components/Authentication/Registration/Registration'
 import Login from './components/Authentication/Login/Login';
 import { Wrapper } from './components/Wrapper';
 import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
-import { fetchCurrentUser } from './features/user/userSlice';
+import { fetchCurrentUser } from './features/user/userAction';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetFormattedDate } from './helpers/useGetFormattedDate';
 

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { addNewCourse } from '../../features/courses/coursesSlice';
-import { addNewAuthor, sendAuthor } from '../../features/authors/authorsSlice';
+import { addNewAuthor } from '../../features/authors/authorsSlice';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import { getAuthors } from '../../features/authors/authorsSlice';
 import { handleInputChange } from '../../hooks/handleInputChange';
@@ -22,7 +22,7 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 
 	useEffect(() => {
 		api(COURSES + '/' + id).then(({ data }) => setCourseInfo(data.result));
-	}, [id, setCourseInfo, courseInfo]);
+	}, [id, setCourseInfo]);
 
 	const authors = useSelector(getAuthors);
 

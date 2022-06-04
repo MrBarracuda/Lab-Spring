@@ -23,10 +23,7 @@ export const USER = 'user';
 export const BUTTON = 'button';
 export const SUBMIT = 'submit';
 
-// storage
-export const TOKEN = localStorage.getItem('token');
-export const AUTH_TOKEN = { Authorization: TOKEN };
-
 // misc
 export const VISIBLE = 'visible';
 export const HIDDEN = 'hidden';
+export const TOKEN = 'token';

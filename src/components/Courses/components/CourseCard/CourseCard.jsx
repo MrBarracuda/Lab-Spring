@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './CourseCard.module.css';
 
 import { deleteCourseAPI } from '../../../../features/courses/coursesSlice';
