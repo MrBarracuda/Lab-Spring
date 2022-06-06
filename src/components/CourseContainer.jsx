@@ -15,10 +15,10 @@ const CourseContainer = ({ courses }) => {
 		<>
 			{courses &&
 				courses.map((course) => {
-					const courseAuthors = getCourseAuthors(course.authors, authors);
+					const courseAuthors = getCourseAuthors(course?.authors, authors);
 					return (
 						<CourseCard
-							key={course.id}
+							key={course?.id}
 							role={role === USER}
 							authorsList={courseAuthors}
 							{...course}

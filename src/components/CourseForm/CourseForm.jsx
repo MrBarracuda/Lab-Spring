@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
-import { addNewCourse } from '../../features/courses/coursesSlice';
-import { addNewAuthor } from '../../features/authors/authorsSlice';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import { getAuthors } from '../../features/authors/authorsSlice';
 import { handleInputChange } from '../../hooks/handleInputChange';
@@ -14,20 +11,31 @@ import { SUBMIT, BUTTON, COURSES } from '../../constants';
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import api from '../../services/api/baseURL';
+import { createNewAuthor } from '../../features/authors/authorAction';
+import { useGetFormattedDate } from '../../helpers/useGetFormattedDate';
+import { createNewCourse, update } from '../../features/courses/coursesAction';
 
 const CourseForm = ({ courseInfo, setCourseInfo }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();
-
-	useEffect(() => {
-		api(COURSES + '/' + id).then(({ data }) => setCourseInfo(data.result));
-	}, [id, setCourseInfo]);
-
 	const authors = useSelector(getAuthors);
-
 	const [newAuthor, setNewAuthor] = useState('');
 	const [addedAuthors, setAddedAuthors] = useState([]);
+
+	useEffect(() => {
+		if (id) {
+			api(COURSES + id).then(({ data }) => setCourseInfo(data.result));
+		} else {
+			setCourseInfo({
+				title: '',
+				creationDate: '12.05.2999',
+				description: '',
+				duration: 0,
+				authors: [],
+			});
+		}
+	}, [id, setCourseInfo]);
 
 	const addAuthorToCourse = (event, id, name) => {
 		if (addedAuthors.some((item) => item.id === id)) {
@@ -66,8 +74,14 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 
 				<Button
 					type={SUBMIT}
-					value='Create course'
-					handleClick={() => dispatch(addNewCourse(courseInfo))}
+					value={id ? 'Update course' : 'Create course'}
+					handleClick={() => {
+						if (id) {
+							dispatch(update(courseInfo));
+						} else {
+							dispatch(createNewCourse(courseInfo));
+						}
+					}}
 				/>
 			</div>
 
@@ -101,7 +115,7 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 						value='Create author'
 						classN={styles.btnCreateAuthor}
 						handleClick={() => {
-							dispatch(addNewAuthor({ id: uuidv4(), name: newAuthor }));
+							dispatch(createNewAuthor({ name: newAuthor }));
 							// dispatch(sendAuthor(newAuthor));
 						}}
 					/>

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/api/baseURL';
-import { LOGIN, LOGOUT, REGISTER, TOKEN, USERS_ME } from '../../constants';
+import { LOGIN, LOGOUT, REGISTER, USERS_ME } from '../../constants';
+import { getToken } from '../helpers/handleRequests';
 
 export const register = createAsyncThunk(
 	'user/register',
@@ -36,7 +37,7 @@ export const logout = createAsyncThunk(
 	async (_, { rejectWithValue, dispatch }) => {
 		try {
 			await api.delete(LOGOUT, {
-				headers: { Authorization: localStorage.getItem(TOKEN) },
+				headers: { Authorization: getToken() },
 			});
 			localStorage.removeItem('token');
 		} catch (error) {
@@ -50,7 +51,7 @@ export const fetchCurrentUser = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await api(USERS_ME, {
-				headers: { Authorization: localStorage.getItem(TOKEN) },
+				headers: { Authorization: getToken() },
 			});
 			return {
 				user: response.data.result,

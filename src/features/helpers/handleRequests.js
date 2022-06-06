@@ -1,3 +1,5 @@
+import { TOKEN } from '../../constants';
+
 export const setError = (state, { payload }) => {
 	state.isLoading = false;
 	state.error = payload;
@@ -17,3 +19,5 @@ export const userResolved = (state, { payload }) => {
 	state.isLoading = false;
 	state.error = null;
 };
+
+export const getToken = () => localStorage.getItem(TOKEN);

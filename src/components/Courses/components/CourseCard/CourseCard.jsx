@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './CourseCard.module.css';
 
-import { deleteCourseAPI } from '../../../../features/courses/coursesSlice';
+import { deleteCourseById } from '../../../../features/courses/coursesAction';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
 import { convertDate } from '../../../../helpers/convertDate';
 
@@ -51,7 +51,7 @@ const CourseCard = ({
 				<Button
 					type={BUTTON}
 					value='Show course'
-					handleClick={() => navigate(`${COURSES}/${courseId}`)}
+					handleClick={() => navigate(COURSES + courseId)}
 				/>
 
 				<FontAwesomeIcon icon='fa-solid fa-circle-trash' />
@@ -61,7 +61,7 @@ const CourseCard = ({
 					value='e'
 					classN={styles.btnSmall}
 					style={{ visibility: role ? HIDDEN : VISIBLE }}
-					handleClick={() => navigate(COURSES_UPDATE + '/' + courseId)}
+					handleClick={() => navigate(COURSES_UPDATE + courseId)}
 				/>
 				<Button
 					type={BUTTON}
@@ -69,7 +69,7 @@ const CourseCard = ({
 					value='d'
 					style={{ visibility: role ? HIDDEN : VISIBLE }}
 					classN={styles.btnSmall}
-					handleClick={() => dispatch(deleteCourseAPI(courseId))}
+					handleClick={() => dispatch(deleteCourseById(courseId))}
 				/>
 			</div>
 		</div>

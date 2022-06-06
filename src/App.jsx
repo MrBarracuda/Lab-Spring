@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-import { fetchCourses } from './features/courses/coursesSlice';
-import { fetchAuthors } from './features/authors/authorsSlice';
+import { getAllCourses } from './features/courses/coursesAction';
+import { getAllAuthors } from './features/authors/authorAction';
+
 import {
 	COURSES,
 	COURSES_ADD,
@@ -36,7 +37,6 @@ function App() {
 
 	const [courseInfo, setCourseInfo] = useState({
 		title: '',
-		id: uuidv4(),
 		creationDate: useGetFormattedDate(new Date()),
 		description: '',
 		duration: 0,
@@ -44,11 +44,8 @@ function App() {
 	});
 
 	useEffect(() => {
-		dispatch(fetchCourses());
-	}, [dispatch]);
-
-	useEffect(() => {
-		dispatch(fetchAuthors());
+		dispatch(getAllCourses());
+		dispatch(getAllAuthors());
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -74,16 +71,10 @@ function App() {
 						path='/'
 						element={<Navigate to={token ? COURSES : LOGIN} replace />}
 					/>
-					{/*<Route path='/courses' element={<PrivateRouter />} />*/}
+					<Route path={COURSES} element={<Courses />} />
+					<Route path={COURSES + ':id'} element={<CourseInfo />} />
 					<Route
-						path={COURSES}
-						element={
-							<Courses courseInfo={courseInfo} setCourseInfo={setCourseInfo} />
-						}
-					/>
-					<Route path={COURSES + '/:id'} element={<CourseInfo />} />
-					<Route
-						path={COURSES_UPDATE + '/:id'}
+						path={COURSES_UPDATE + ':id'}
 						element={
 							<CourseForm
 								setCourseInfo={setCourseInfo}
@@ -95,7 +86,10 @@ function App() {
 						path={COURSES_ADD}
 						element={
 							<PrivateRouter>
-								<CourseForm />
+								<CourseForm
+									setCourseInfo={setCourseInfo}
+									courseInfo={courseInfo}
+								/>
 							</PrivateRouter>
 						}
 					></Route>
