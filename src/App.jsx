@@ -22,7 +22,6 @@ import Login from './components/Authentication/Login/Login';
 import { Wrapper } from './components/Wrapper';
 import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
 import { fetchCurrentUser } from './features/user/userAction';
-import { v4 as uuidv4 } from 'uuid';
 import { useGetFormattedDate } from './helpers/useGetFormattedDate';
 
 function App() {

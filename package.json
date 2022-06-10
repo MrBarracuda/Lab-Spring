@@ -9,10 +9,10 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "fa-icons": "^0.2.0",
+    "jest": "^28.1.0",
     "path": "^0.12.7",
     "path-browserify": "^1.0.1",
     "prop-types": "^15.8.1",
@@ -32,7 +32,7 @@
     "eject": "react-scripts eject",
     "test:nowatch": "react-scripts test --watchAll=false",
     "prepare": "husky install",
-    "prepublish": "npm run eslint:fix",
+    "prepublish": "npm run eslint:fix && npm run test:nowatch",
     "eslint": "eslint --ext .js --ext .jsx src",
     "eslint:fix": "eslint --fix --ext .js --ext .jsx src"
   },
@@ -56,6 +56,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-throw-expressions": "^7.16.7",
+    "@testing-library/react": "^13.3.0",
     "eslint": "^8.15.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",

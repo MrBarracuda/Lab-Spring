@@ -12,7 +12,6 @@ import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import api from '../../services/api/baseURL';
 import { createNewAuthor } from '../../features/authors/authorAction';
-import { useGetFormattedDate } from '../../helpers/useGetFormattedDate';
 import { createNewCourse, update } from '../../features/courses/coursesAction';
 
 const CourseForm = ({ courseInfo, setCourseInfo }) => {
@@ -23,13 +22,16 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 	const [newAuthor, setNewAuthor] = useState('');
 	const [addedAuthors, setAddedAuthors] = useState([]);
 
+	const getFormattedDate = (date) =>
+		`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
 	useEffect(() => {
 		if (id) {
 			api(COURSES + id).then(({ data }) => setCourseInfo(data.result));
 		} else {
 			setCourseInfo({
 				title: '',
-				creationDate: '12.05.2999',
+				creationDate: getFormattedDate(new Date()),
 				description: '',
 				duration: 0,
 				authors: [],

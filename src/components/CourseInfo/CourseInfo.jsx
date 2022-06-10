@@ -17,7 +17,7 @@ const CourseInfo = () => {
 	const authors = useSelector(getAuthors);
 
 	useEffect(() => {
-		api.get(COURSES + id).then((res) => setCourse(res.data.result));
+		api.get(COURSES + id).then(({ data }) => setCourse(data?.result));
 	}, [id]);
 
 	return (
