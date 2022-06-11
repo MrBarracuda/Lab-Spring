@@ -22,7 +22,6 @@ import Login from './components/Authentication/Login/Login';
 import { Wrapper } from './components/Wrapper';
 import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
 import { fetchCurrentUser } from './features/user/userAction';
-import { useGetFormattedDate } from './helpers/useGetFormattedDate';
 
 function App() {
 	const dispatch = useDispatch();
@@ -36,7 +35,7 @@ function App() {
 
 	const [courseInfo, setCourseInfo] = useState({
 		title: '',
-		creationDate: useGetFormattedDate(new Date()),
+		creationDate: '',
 		description: '',
 		duration: 0,
 		authors: [],

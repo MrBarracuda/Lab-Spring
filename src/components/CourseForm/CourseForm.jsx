@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -22,8 +22,17 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 	const [newAuthor, setNewAuthor] = useState('');
 	const [addedAuthors, setAddedAuthors] = useState([]);
 
-	const getFormattedDate = (date) =>
-		`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+	const getCourseAuthors = useMemo(() => {
+		return authors
+			?.map((author) => courseInfo?.authors.includes(author.id) && author)
+			.filter(Boolean);
+	}, [courseInfo.authors]);
+
+	useEffect(() => {
+		if (id) {
+			setAddedAuthors(getCourseAuthors);
+		}
+	}, [getCourseAuthors]);
 
 	useEffect(() => {
 		if (id) {
@@ -31,13 +40,17 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 		} else {
 			setCourseInfo({
 				title: '',
-				creationDate: getFormattedDate(new Date()),
+				creationDate: '',
 				description: '',
 				duration: 0,
 				authors: [],
 			});
 		}
-	}, [id, setCourseInfo]);
+	}, []);
+
+	// //TODO fix a bug when sending put request with duration changed, it becomes a string instead of required number type
+
+	// //TODO fix a bug when added course authors don't show up after first render of a component
 
 	const addAuthorToCourse = (event, id, name) => {
 		if (addedAuthors.some((item) => item.id === id)) {
@@ -161,11 +174,12 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 							))}
 						</ul>
 						<h3>Course authors</h3>
+
 						<ul className={styles.courseAuthors}>
 							{addedAuthors.length < 1 ? (
 								<h2>Author list is empty</h2>
 							) : (
-								addedAuthors.map((author) => (
+								addedAuthors?.map((author) => (
 									<li className={styles.authorsList} key={author.id}>
 										{author.name}
 										<Button

@@ -4,7 +4,6 @@ import styles from './CourseCard.module.css';
 
 import { deleteCourseById } from '../../../../features/courses/coursesAction';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
-import { convertDate } from '../../../../helpers/convertDate';
 
 import { Button } from '../../../../common/Button/Button';
 import {
@@ -46,7 +45,7 @@ const CourseCard = ({
 				</div>
 				<div>
 					<span className={styles.subTitle}>Created: </span>
-					{convertDate(creationDate)}
+					{creationDate}
 				</div>
 				<Button
 					type={BUTTON}

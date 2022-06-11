@@ -8,9 +8,16 @@ const MockLogo = () => (
 	</Router>
 );
 
-it("should have logo and user's name", () => {
-	render(<MockLogo />);
-	const logo = screen.getByRole('img');
-	expect(logo).toHaveAttribute('src', '/logo.png');
-	expect(logo).toHaveAttribute('alt', 'logo');
+describe('Header Logo', () => {
+	it('should have src tag', () => {
+		render(<MockLogo />);
+		const logo = screen.getByRole('img');
+		expect(logo).toHaveAttribute('src', '/logo.png');
+	});
+
+	it('should have alt tag', () => {
+		render(<MockLogo />);
+		const logo = screen.getByRole('img');
+		expect(logo).toHaveAttribute('alt', 'logo');
+	});
 });

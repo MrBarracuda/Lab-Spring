@@ -1,1 +1,1 @@
-export const convertDate = (date) => date?.replaceAll('/', '.');
+export const convertDate = (date) => date.split('/').join('.');

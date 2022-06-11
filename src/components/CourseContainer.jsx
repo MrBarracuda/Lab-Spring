@@ -6,6 +6,7 @@ import { getCourseAuthors } from '../helpers/getCourseAuthors';
 import CourseCard from './Courses/components/CourseCard/CourseCard';
 import { getUser } from '../features/user/userSlice';
 import { USER } from '../constants';
+import { convertDate } from '../helpers/convertDate';
 
 const CourseContainer = ({ courses }) => {
 	const authors = useSelector(getAuthors);
@@ -22,6 +23,7 @@ const CourseContainer = ({ courses }) => {
 							role={role === USER}
 							authorsList={courseAuthors}
 							{...course}
+							creationDate={convertDate(course.creationDate)}
 						/>
 					);
 				})}

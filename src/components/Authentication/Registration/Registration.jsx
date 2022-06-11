@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { register } from '../../../features/user/userAction';
 import { handleInputChange } from '../../../hooks/handleInputChange';
