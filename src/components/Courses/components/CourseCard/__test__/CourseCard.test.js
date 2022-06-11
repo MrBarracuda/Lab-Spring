@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { mockedStore } from '../../../../../app/__test__/mockedStore';
 import CourseCard from '../CourseCard';
-import { convertDate } from '../../../../../helpers/convertDate';
 
 const MockCourseCard = () => {
 	return (
