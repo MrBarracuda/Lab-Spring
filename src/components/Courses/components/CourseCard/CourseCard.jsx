@@ -13,7 +13,6 @@ import {
 	HIDDEN,
 	VISIBLE,
 } from '../../../../constants';
-import { FontAwesomeIcon } from '../../../../common/Icons/FontAwesomeIcon';
 
 const CourseCard = ({
 	title,
@@ -28,7 +27,7 @@ const CourseCard = ({
 	const navigate = useNavigate();
 
 	return (
-		<div className={styles.courseCardItem}>
+		<div className={styles.courseCardItem} data-testid='course-card'>
 			<div className={styles.leftSide}>
 				<div className={styles.title}>{title}</div>
 				<div className={styles.description}>{description}</div>
@@ -52,8 +51,6 @@ const CourseCard = ({
 					value='Show course'
 					handleClick={() => navigate(COURSES + courseId)}
 				/>
-
-				<FontAwesomeIcon icon='fa-solid fa-circle-trash' />
 				<Button
 					type={BUTTON}
 					name='edit'

@@ -33,7 +33,7 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 			setAddedAuthors(getCourseAuthors);
 		}
 	}, [getCourseAuthors]);
-
+	console.log('re-render');
 	useEffect(() => {
 		if (id) {
 			api(COURSES + id).then(({ data }) => setCourseInfo(data.result));

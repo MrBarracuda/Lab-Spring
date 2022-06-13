@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -24,19 +24,20 @@ const MockCourseCard = () => {
 describe('Course Card', () => {
 	it('should display title', () => {
 		render(<MockCourseCard />);
-		expect(screen.getByText('Test title')).toBeInTheDocument();
+		const titleElement = screen.getByText('Test title');
+		expect(titleElement).toBeInTheDocument();
 	});
 
 	it('should display description', () => {
 		render(<MockCourseCard />);
-		expect(screen.getByText('Test description')).toBeInTheDocument();
+		const descriptionElement = screen.getByText('Test description');
+		expect(descriptionElement).toBeInTheDocument();
 	});
 
 	it('should display authors list', () => {
 		render(<MockCourseCard />);
-		expect(
-			screen.getByText('Test author 1, Test author 2')
-		).toBeInTheDocument();
+		const authorsElement = screen.getByText('Test author 1, Test author 2');
+		expect(authorsElement).toBeInTheDocument();
 	});
 
 	it('should display duration in the correct format', () => {
@@ -46,9 +47,9 @@ describe('Course Card', () => {
 		expect(durationElement.textContent).toMatch(regex);
 	});
 
-	// it('should display created date in the correct format', () => {
-	// 	render(<MockCourseCard />);
-	// 	const regex = /^(0?[1-9]|[12]\d|3[01])[.-](0?[1-9]|1[012])[.-]\d{4}$/;
-	// 	expect(screen.getByText('10.06.2022')).toMatch(regex);
-	// });
+	it('should display created date in the correct format', () => {
+		render(<MockCourseCard />);
+		const dateElement = screen.getByText('10.06.2022');
+		expect(dateElement).toBeInTheDocument();
+	});
 });

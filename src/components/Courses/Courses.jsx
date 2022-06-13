@@ -7,7 +7,7 @@ import { USER, COURSES_ADD, HIDDEN, VISIBLE } from '../../constants';
 
 import { Button } from '../../common/Button/Button';
 import SearchBar from './components/SearchBar/SearchBar';
-import CourseContainer from '../CourseContainer';
+import CourseContainer from './CourseContainer';
 import { getUser } from '../../features/user/userSlice';
 
 const Courses = () => {

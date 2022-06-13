@@ -46,14 +46,9 @@ export const courseSlice = createSlice({
 
 		// update course info
 		[update.pending]: setLoading,
-		[update.fulfilled]: (state, { payload }) => {
+		[update.fulfilled]: (state) => {
 			state.isLoading = false;
 			state.error = null;
-			// state.courses = state.courses.map((course) => {
-			// 	return course.id === payload.id
-			// 		? { ...course, newValue: null }
-			// 		: course;
-			// });
 		},
 		[update.rejected]: setError,
 	},
