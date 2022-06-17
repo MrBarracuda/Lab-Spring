@@ -15,5 +15,6 @@ const MockHeader = () => (
 
 it("Should have user's name", () => {
 	render(<MockHeader />);
-	expect(screen.getByText('Test Name')).toBeInTheDocument();
+	const userNameElement = screen.getByText('Test Name');
+	expect(userNameElement.textContent).toBe('Test Name');
 });
