@@ -50,8 +50,6 @@ const CourseForm = ({ courseInfo, setCourseInfo }) => {
 
 	// //TODO fix a bug when sending put request with duration changed, it becomes a string instead of required number type
 
-	// //TODO fix a bug when added course authors don't show up after first render of a component
-
 	const addAuthorToCourse = (event, id, name) => {
 		if (addedAuthors.some((item) => item.id === id)) {
 			console.log('You have already added this author to course');
